@@ -59,6 +59,7 @@ const ProfileSetUp = () => {
                 size={25}
                 className="absolute top-16 left-[5.5rem]"
                 onClick={(e) => {
+                  e.preventDefault();
                   fileinputRef.current.click(); // when you click on this, click the file input
                 }}
               />
