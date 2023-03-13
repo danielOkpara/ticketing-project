@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import VerifyPhone from "./pages/VerifyPhone";
 import Pinsetup from "./pages/Pinsetup"
 import Pinconfirm from "./pages/Pinconfirm";
+import Fileupload from "./pages/Fileupload";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/verify-phone" element={<VerifyPhone/>}/>
       <Route path="/pin" element={<Pinsetup />} />
       <Route path="/confirm-pin" element={<Pinconfirm />} />
+      <Route path="/upload-file" element={<Fileupload/>} />
     </Routes>
   );
 }

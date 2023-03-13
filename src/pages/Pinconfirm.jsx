@@ -1,3 +1,4 @@
+import React from "react";
 const Pinconfirm=()=>{
     return(
         <div className=" h-screen w-full bg-[#660056] flex items-center justify-center">
