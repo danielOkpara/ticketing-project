@@ -7,6 +7,8 @@
 
 body {
     font-family: "Inter", sans-serif;
-    background-color: hsla(310, 100%, 25%, 0.8);
+    height: 100%;
+    background: #660056;
+
 }
 
