@@ -1,63 +1,90 @@
-import Input from "../components/Input";
-// import { Link } from "react-router-dom";
-import { AiOutlineCamera } from "react-icons/ai";
-// import { useRef, useState, useEffect } from "react";
-const Fileupload=()=>{
-    return(
-     <div className=" h-screen w-full flex items-center justify-center">
-        <div className=" container bg-white h-[918px] w-[651px] mt-25 flex flex-col justify-center text-center">
-         
-        <h1 className=" font-bold text-2xl  mt-[90px]">Upload Your Passport</h1>
-         <p className=" mt-5">Use your camera to upload a picture of your passport bio data page</p>
+import { Link } from "react-router-dom";
+import { useRef, useState, useEffect } from "react";
 
-     <form className=" mt-20 flex justify-center items-center flex-col">
-            
-               <div className=" border-2 border-black w-[310px] h-[320px] relative flex justify-center items-center ">
-             
-             {/* <img
-               src={preview}
-               alt=""
-               className="object-cover rounded-full w-[100px] h-[100px] bg-center m-[3px]"
-             />
-            */}
-              {/* <input
-               type="file"
-               className="hidden"
-               ref={fileinputRef} // select the file input
-               accept="image/*" //Limits the file to images only
-               onChange={(e) => {
-                 const file = e.target.files[0];
-                 file && file.type.substring(0, 5) === "image"
-                   ? setImage(file)
-                   : setImage(null);
-            //    }} 
-            //  /> 
-           
+const Fileupload = () => {
+  const fileinputRef = useRef(); // use this to select the file input
 
-           {/* <AiOutlineCamera
-             size={25}
-             className="absolute top-16 left-[5.5rem]"
-             onClick={(e) => {
-               fileinputRef.current.click(); // when you click on this, click the file input
-             }}
-           /> */}
-           <button className=" bg-purple-900 ">Upload file here</button>
-         </div>
-              
+  const [image, setImage] = useState();
+  const [preview, setPreview] = useState();
 
-         <div className=" text-center mb-[75px] mx-3 ">
-           <button type="submit" className=" mt-28 bg-[#660056] text-white rounded p-4 w-[509px] font-poppins font-medium text-xl hover:bg-primary">Upload File</button>
-         </div>
-            
-    </form>
-    <h1 className=" text-lg font-semibold">Already a user?</h1>
-    <p className="mt-8">By signing in, you consent to our terms and condition</p>
+  useEffect(() => {
+    if (image) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(image);
+    } else {
+      setPreview(null);
+    }
+  }, [image]);
 
+  return (
+    <div className=" h-full w-full flex items-center justify-center">
+      <div className="bg-white h-screen w-[651px] text-center">
+        <h1 className=" font-bold text-2xl mt-16">Upload Your Passport</h1>
+        <p className=" mt-7">
+          Use your camera to upload a picture of your passport bio data page
+        </p>
+
+        <div className=" border-2 border-black w-[330px] h-[221px] relative flex justify-center items-center my-16 mx-auto">
+          <form className="flex justify-center items-center">
+            {preview ? (
+              <img
+                src={preview}
+                className="object-cover w-[350px] h-[221px]"
+                onClick={(e) => {
+                  setImage(null);
+                }}
+              />
+            ) : (
+              <button
+                className=" text-purple-900 "
+                onClick={(e) => {
+                  e.preventDefault();
+                  fileinputRef.current.click(); // when you click on this,
+                }}
+              >
+                {" "}
+                Upload file here
+              </button>
+            )}
+
+            <input
+              type="file"
+              className="hidden"
+              ref={fileinputRef} // select the file input
+              accept="image/*" //Limits the file to images only
+              onChange={(e) => {
+                const file = e.target.files[0];
+                file && file.type.substring(0, 5) === "image"
+                  ? setImage(file)
+                  : setImage(null);
+              }}
+            />
+          </form>
+        </div>
+        <div className=" text-center mb-10 mx-3 ">
+          <button
+            type="submit"
+            className=" mt-20 bg-[#660056] text-white rounded p-4 w-[509px] font-poppins font-medium text-xl hover:bg-primary"
+          >
+            Upload File
+          </button>
         </div>
 
+        <div className="text-center font-normal text-2xl font-inter">
+          <span>Already a user?</span>
+          <Link to="/login" className="ml-2 text-[#660056]">
+            Login here
+          </Link>
+        </div>
+
+        <p className="text-center text-base font-semibold mt-2 font-inter">
+          By signing in, you consent to our terms and condition
+        </p>
+      </div>
     </div>
-
-
-    );
-}
+  );
+};
 export default Fileupload;
