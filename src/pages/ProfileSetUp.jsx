@@ -21,7 +21,7 @@ const ProfileSetUp = () => {
   }, [image]);
 
   return (
-    <section className="h-screen w-full bg-primary flex items-center justify-center">
+    <section className="h-full w-full flex items-center justify-center">
       <div className="bg-white h-[918px] w-[651px] px-9">
         <h2 className="mt-10 text-center text-2xl capitalize font-semibold font-inter">
           Create Your Account
@@ -96,7 +96,7 @@ const ProfileSetUp = () => {
             placeholder="Passport Number"
           />
 
-          <div className="text-center my-6 mx-3">
+          <div className="text-center my-2 mx-3">
             <button
               type="submit"
               className="bg-[#660056] text-white rounded p-4 w-full font-poppins font-medium text-xl hover:bg-primary"
@@ -112,7 +112,7 @@ const ProfileSetUp = () => {
           </Link>
         </div>
 
-        <p className="text-center text-base font-semibold mt-4 font-inter">
+        <p className="text-center text-base font-semibold mt-2 font-inter">
           By signing in, you consent to our terms and condition
         </p>
       </div>
