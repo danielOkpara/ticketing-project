@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const VerifyPhone = () => {
+const VerifyEmail = () => {
   return (
     <section className="h-screen w-full bg-primary flex items-center justify-center">
       <div className="bg-white h-[918px] w-[651px] px-9">
@@ -11,7 +11,7 @@ const VerifyPhone = () => {
           </p>
         </div>
         <h2 className="mt-10 text-center text-3xl capitalize font-semibold">
-          Verify Your Phone Number
+          Verify Your Email
         </h2>
 
         <p className="text-center mt-7 text-xl">
@@ -50,4 +50,4 @@ const VerifyPhone = () => {
   );
 };
 
-export default VerifyPhone;
+export default VerifyEmail;

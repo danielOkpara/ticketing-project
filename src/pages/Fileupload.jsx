@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
+import axios from "axios";
+import { useFormik } from "formik";
 
 const Fileupload = () => {
   const fileinputRef = useRef(); // use this to select the file input
@@ -19,6 +21,33 @@ const Fileupload = () => {
     }
   }, [image]);
 
+  const email = localStorage.getItem('email');
+
+  const formik = useFormik({
+    initialValues:{
+      email:'',
+      passport:'null',
+    },
+    onSubmit:(values) => {
+      const formData = new FormData();
+
+      formData.append("email", email)
+      formData.append("passport", values.passport)
+
+      axios.post('https://flight-token.herokuapp.com/upload-passport', formData)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+    }
+  })
+
+  console.log(formik.values)
+ 
+
   return (
     <div className=" h-full w-full flex items-center justify-center">
       <div className="bg-white h-screen w-[651px] text-center">
@@ -28,7 +57,7 @@ const Fileupload = () => {
         </p>
 
         <div className=" border-2 border-black w-[330px] h-[221px] relative flex justify-center items-center my-16 mx-auto">
-          <form className="flex justify-center items-center">
+          <form className="flex justify-center items-center" onSubmit={formik.handleSubmit}>
             {preview ? (
               <img
                 src={preview}
@@ -60,6 +89,7 @@ const Fileupload = () => {
                 file && file.type.substring(0, 5) === "image"
                   ? setImage(file)
                   : setImage(null);
+                  formik.setFieldValue("passport", file)
               }}
             />
           </form>

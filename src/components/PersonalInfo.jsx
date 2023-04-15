@@ -11,7 +11,7 @@ function PersonalInfo() {
         </p>
       </div>
 
-      <form action="">
+      <div>
         <div>
           <p>Upload A Profile Picture</p>
           <p>Upload A Profile Picture under 2mb</p>
@@ -30,7 +30,7 @@ function PersonalInfo() {
               Submit Personal Information
             </button>
           </div>
-      </form>
+      </div>
     </section>
   );
 };
