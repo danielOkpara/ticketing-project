@@ -12,16 +12,6 @@ const VerifyEmail = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
 
-// useEffect(() => {
-//   const emailFromLocalStorage = localStorage.getItem("email");
-//   if(emailFromLocalStorage) {
-//     setEmail(emailFromLocalStorage)
-//   }
-// },[])  
-//console.log(localStorage.getItem("email"))
-
-//console.log(email)
-
 const emailFromLocalStorage = localStorage.getItem('email');
 const email = emailFromLocalStorage.replace(/^"(.*)"$/, '$1')
 const formData = {
