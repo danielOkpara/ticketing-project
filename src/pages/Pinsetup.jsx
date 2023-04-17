@@ -1,30 +1,119 @@
-import React from "react";
-const Pinsetup=()=>{
-    return(
-        <div className=" h-screen w-full flex items-center justify-center">
-            <div className=" container bg-white h-[918px] w-[651px] mt-25 flex flex-col justify-center text-center">
-                <form>
-                    <h1 className=" mt-40 text-3xl font-bold ">
-                        Set Up Your pin
-                    </h1>
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import OtpInput from "react-otp-input";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Spinner } from "flowbite-react";
 
-                    <div className=" flex items-center justify-center mt-28">
-                    <input type="text" maxLength={1} className="w-[80px] h-[93px] bg-[#e7e0ec] rounded-sm mr-8 text-center text-4xl focus:border-primary" />
-                    <input type="text" maxLength={1} className="w-[80px] h-[93px] bg-[#e7e0ec] rounded-sm mr-8 text-center text-4xl focus:border-primary" />
-                    <input type="text" maxLength={1} className="w-[80px] h-[93px] bg-[#e7e0ec] rounded-sm mr-8 text-center text-4xl focus:border-primary" />
-                    <input type="text" maxLength={1} className="w-[80px] h-[93px] bg-[#e7e0ec] rounded-sm mr-8 text-center text-4xl focus:border-primary" />
-                    </div>
+const Pinsetup = () => {
+  const [otp, setOtp] = useState("");
+  // const [email, setEmail] = useState()
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-                </form>
+  const emailFromLocalStorage = localStorage.getItem("email");
+  const email = emailFromLocalStorage.replace(/^"(.*)"$/, "$1");
+  const formData = {
+    email: email,
+    otp: otp,
+  };
 
-               <div className=" text-center mt-[145px] mb-[215px] mx-3 ">
-               <button type="submit" className=" mt-28 bg-[#660056] text-white rounded p-4 w-[509px] font-poppins font-medium text-xl hover:bg-primary">Continue</button>
-               </div>
-              
+  const notify = (text) => {
+    return toast.info(text, {
+      position: toast.POSITION.TOP_RIGHT,
+      progressStyle: { background: "rgba(128, 0, 107, 0.8)" },
+    });
+  };
 
-            </div>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        "https://flight-token.herokuapp.com/set-pin",
+        formData
+      );
+      notify(response.data.message);
+      setTimeout(() => {
+        //navigate("/upload-file", { replace: true });
+        window.location.href = "/";
+      }, 2000);
+    } catch (error) {
+      notify(error.response.data.message);
+    }
+    setLoading(false);
+  };
 
+  return (
+    <section className="h-screen flex items-center justify-center">
+      <div className="bg-white w-[651px] px-9">
+        <div className="flex justify-end items-center mb-8 mt-5 font-inter text-xl">
+          <p>
+            <span>3 </span>Of 4
+          </p>
         </div>
-    );
-}
+        <h2 className="mt-5 text-center text-3xl capitalize font-semibold">
+          Set up Pin
+        </h2>
+
+        <form
+          className=" mt-20 flex flex-col justify-center items-center"
+          onSubmit={handleSubmit}
+        >
+          <OtpInput
+            value={otp}
+            onChange={setOtp}
+            numInputs={4}
+            renderInput={(props) => <input {...props} />}
+            inputStyle={
+              "h-[93px] bg-[#e7e0ec] rounded-sm mr-8 text-center text-7xl focus:border-primary"
+            }
+          />
+
+          <div className="text-center mt-20 mb-14">
+            <button
+              type="submit"
+              className="bg-[#660056] text-white rounded p-4 font-poppins font-medium text-xl hover:bg-primary px-20"
+            >
+              {loading ? (
+                <Spinner
+                  color="gray"
+                  aria-label="Info spinner example"
+                  size="lg"
+                />
+              ) : (
+                "Continue"
+              )}
+            </button>
+          </div>
+        </form>
+
+        {/* <div className="text-center font-normal text-2xl font-inter ">
+          <span>Already a user?</span>
+          <Link to="/login" className="ml-2 text-[#660056]">
+            Login here
+          </Link>
+        </div>
+
+        <p className="text-center text-base font-semibold mt-4 pb-5 font-inter">
+          By signing in, you consent to our terms and condition
+        </p> */}
+      </div>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={9000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        className="capitalize"
+      />
+    </section>
+  );
+};
+
 export default Pinsetup;

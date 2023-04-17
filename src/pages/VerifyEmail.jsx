@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OtpInput from "react-otp-input";
 import axios from "axios";
@@ -8,18 +8,15 @@ import { Spinner } from "flowbite-react";
 
 const VerifyEmail = () => {
   const [otp, setOtp] = useState("");
- // const [email, setEmail] = useState()
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-const emailFromLocalStorage = localStorage.getItem('email');
-const email = emailFromLocalStorage.replace(/^"(.*)"$/, '$1')
-const formData = {
-  email: email,
-  otp: otp,
-}
-console.log(formData)
-
+  const emailFromLocalStorage = localStorage.getItem("email");
+  const email = emailFromLocalStorage.replace(/^"(.*)"$/, "$1");
+  const formData = {
+    email: email,
+    otp: otp,
+  };
 
   const notify = (text) => {
     return toast.info(text, {
@@ -33,11 +30,13 @@ console.log(formData)
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://flight-token.herokuapp.com/email-verification",formData
+        "https://flight-token.herokuapp.com/email-verification",
+        formData
       );
       notify(response.data.message);
       setTimeout(() => {
         navigate("/upload-file", { replace: true });
+        window.location.href = "/upload-file";
       }, 2000);
     } catch (error) {
       notify(error.response.data.message);

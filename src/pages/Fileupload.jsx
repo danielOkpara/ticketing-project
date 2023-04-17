@@ -8,7 +8,6 @@ import { Spinner } from "flowbite-react";
 
 const Fileupload = () => {
   const fileinputRef = useRef(); // use this to select the file input
-
   const [image, setImage] = useState();
   const [preview, setPreview] = useState();
   const [loading, setLoading] = useState(false);
@@ -44,6 +43,7 @@ const Fileupload = () => {
       const formData = new FormData();
       formData.append("email", values.email);
       formData.append("passport", values.passport);
+      setLoading(true);
 
       try {
         const response = await axios.post(
@@ -52,7 +52,7 @@ const Fileupload = () => {
         );
         notify(response.data.message);
         setTimeout(() => {
-          window.location.href = "/verify-email";
+          window.location.href = "/pin";
         }, 2000);
       } catch (error) {
         notify(error.response.data.message);
@@ -60,8 +60,6 @@ const Fileupload = () => {
       setLoading(false);
     },
   });
-
-  console.log(formik.values);
 
   return (
     <div className=" h-screen flex items-center justify-center">
@@ -71,11 +69,8 @@ const Fileupload = () => {
           Use your camera to upload a picture of your passport bio data page
         </p>
 
-        <div className=" border-2 border-black w-[330px] h-[221px] relative flex justify-center items-center my-16 mx-auto">
-          <form
-            className=""
-            onSubmit={formik.handleSubmit}
-          >
+        <form className="" onSubmit={formik.handleSubmit}>
+          <div className=" border-2 border-black w-[330px] h-[221px] relative flex justify-center items-center my-16 mx-auto">
             {preview ? (
               <img
                 src={preview}
@@ -110,17 +105,25 @@ const Fileupload = () => {
                 formik.setFieldValue("passport", file);
               }}
             />
-            <button></button>
-            {/* <div className=" text-center mb-10 mx-3 ">
-              <button
-                type="submit"
-                className=" mt-20 bg-[#660056] text-white rounded p-4 w-[509px] font-poppins font-medium text-xl hover:bg-primary"
-              >
-                Upload File
-              </button>
-            </div> */}
-          </form>
-        </div>
+          </div>
+
+          <div className="text-center mb-10">
+            <button
+              type="submit"
+              className="bg-[#660056] text-white rounded p-4 font-poppins font-medium text-xl hover:bg-primary px-20"
+            >
+              {loading ? (
+                <Spinner
+                  color="gray"
+                  aria-label="Info spinner example"
+                  size="lg"
+                />
+              ) : (
+                "Upload File"
+              )}
+            </button>
+          </div>
+        </form>
 
         <div className="text-center font-normal text-2xl font-inter">
           <span>Already a user?</span>
@@ -129,7 +132,7 @@ const Fileupload = () => {
           </Link>
         </div>
 
-        <p className="text-center text-base font-semibold mt-2 font-inter">
+        <p className="text-center text-base font-semibold mt-2 font-inter pb-5">
           By signing in, you consent to our terms and condition
         </p>
       </div>
