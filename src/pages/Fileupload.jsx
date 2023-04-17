@@ -21,29 +21,30 @@ const Fileupload = () => {
     }
   }, [image]);
 
-  const email = localStorage.getItem('email');
+  const emailFromLocalStorage = localStorage.getItem('email');
+  const email = emailFromLocalStorage.replace(/^"(.*)"$/, '$1')
 
-  const formik = useFormik({
-    initialValues:{
-      email:'',
-      passport:'null',
-    },
-    onSubmit:(values) => {
-      const formData = new FormData();
+  // const formik = useFormik({
+  //   initialValues:{
+  //     email:'',
+  //     passport:'null',
+  //   },
+  //   onSubmit:(values) => {
+  //     const formData = new FormData();
 
-      formData.append("email", email)
-      formData.append("passport", values.passport)
+  //     formData.append("email", email)
+  //     formData.append("passport", values.passport)
 
-      axios.post('https://flight-token.herokuapp.com/upload-passport', formData)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+  //     axios.post('https://flight-token.herokuapp.com/upload-passport', formData)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //     })
 
-    }
-  })
+  //   }
+  // })
 
   console.log(formik.values)
  

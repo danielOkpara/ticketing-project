@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CreateAccount from "../components/CreateAccount";
 import ProfileSetUp from "../components/ProfileSetUp";
 import axios from "axios";
 import { useFormik } from "formik";
 import { ToastContainer, toast } from "react-toastify";
-import { Spinner } from "flowbite-react";
 import "react-toastify/dist/ReactToastify.css";
 import * as Yup from "yup";
+import { Spinner } from "flowbite-react";
 
 const SignUp = () => {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [buttonType, setButtonType] = useState("text");
+  const navigate = useNavigate()
 
   const handleClick = () => {
     setPage(1);
@@ -51,7 +52,7 @@ const SignUp = () => {
     //   image: Yup.mixed().required("Image is required"),
     // }),
 
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const formData = new FormData();
 
       formData.append("username", values.username);
@@ -64,20 +65,23 @@ const SignUp = () => {
       formData.append("phone_number", values.phone_number);
       formData.append("image", values.image);
 
-      let email = values.email;
+      let email = formik.values.email;
       localStorage.setItem("email", JSON.stringify(email));
       setLoading(true);
-      axios
-        .post("https://flight-token.herokuapp.com/signup", formData)
-        .then((response) => {
-          notify(response.data.message);
-          window.location.href = "/verify-email";
-        })
-        .catch((error) => {
-          notify(error.response.data.message);
-        });
+      try {
+        const response = await axios.post(
+          "https://flight-token.herokuapp.com/signup",
+          formData
+        );
+        notify(response.data.message);
+        setTimeout(() => {
+          window.location.href="/verify-email"
+        }, 2000);
+      } catch (error) {
+        notify(error.response.data.message);
+      }
 
-      //setLoading(false);
+      setLoading(false);
     },
   });
 
@@ -92,6 +96,7 @@ const SignUp = () => {
     }
   };
 
+  console.log(formik.values)
 
   return (
     <form className="bg-white w-[651px] mx-auto" onSubmit={formik.handleSubmit}>
