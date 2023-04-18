@@ -7,17 +7,18 @@ import "react-toastify/dist/ReactToastify.css";
 import { Spinner } from "flowbite-react";
 
 const Pinsetup = () => {
-  const [otp, setOtp] = useState("");
-  // const [email, setEmail] = useState()
+  const [otp, setOtp] = useState();
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const emailFromLocalStorage = localStorage.getItem("email");
   const email = emailFromLocalStorage.replace(/^"(.*)"$/, "$1");
+
   const formData = {
     email: email,
-    otp: otp,
+    pin: otp,
   };
+  console.log(formData);
 
   const notify = (text) => {
     return toast.info(text, {
@@ -37,8 +38,8 @@ const Pinsetup = () => {
       notify(response.data.message);
       setTimeout(() => {
         //navigate("/upload-file", { replace: true });
-        window.location.href = "/";
-      }, 2000);
+        window.location.href = "/login";
+      }, 3000);
     } catch (error) {
       notify(error.response.data.message);
     }
@@ -58,7 +59,7 @@ const Pinsetup = () => {
         </h2>
 
         <form
-          className=" mt-20 flex flex-col justify-center items-center"
+          className="mt-20 flex flex-col justify-center items-center"
           onSubmit={handleSubmit}
         >
           <OtpInput

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import CreateAccount from "../components/CreateAccount";
 import ProfileSetUp from "../components/ProfileSetUp";
 import axios from "axios";
@@ -13,7 +13,6 @@ const SignUp = () => {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [buttonType, setButtonType] = useState("text");
-  const navigate = useNavigate()
 
   const handleClick = () => {
     setPage(1);
@@ -39,18 +38,34 @@ const SignUp = () => {
       phone_number: "",
       image: null,
     },
-    // Validate Form
-    // validationSchema: Yup.object({
-    //   username: Yup.string().required("Username is required"),
-    //   email: Yup.string()
-    //     .email("Invalid email address")
-    //     .required("Email is required"),
-    //   password: Yup.string().required("Password is required"),
-    //   id_number: Yup.string().required("ID Number is required"),
-    //   passport_number: Yup.string().required("Passport Number is required"),
-    //   phone_number: Yup.string().required("Phone Number is required"),
-    //   image: Yup.mixed().required("Image is required"),
-    // }),
+    //Validate Form
+    validationSchema: Yup.object({
+      username: Yup.string().required("Username is required"),
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required")
+        .matches(
+          /@(gmail|yahoo|outlook|hotmail|yopmail)\.com$/,
+          "Please enter a valid email address"
+        ),
+      fullname: Yup.string()
+        .matches(
+          /^[a-zA-Z -]+$/,
+          "Full name can only contain letters, spaces, and hyphens"
+        )
+        .required("Full name is required"),
+      password: Yup.string()
+        .min(5)
+        .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/, "Please create a stronger password")
+        .required("Password is required"),
+      id_number: Yup.number("ID allows only numbers")
+        .positive().min(11,"NIN number can only be 11 digits")
+        .integer("ID allows only numbers")
+        .required("ID Number is required"),
+      passport_number: Yup.string().required("Passport Number is required"),
+      phone_number: Yup.string().required("Phone Number is required"),
+      image: Yup.mixed().required("Image is required"),
+    }),
 
     onSubmit: async (values) => {
       const formData = new FormData();
@@ -75,7 +90,7 @@ const SignUp = () => {
         );
         notify(response.data.message);
         setTimeout(() => {
-          window.location.href="/verify-email"
+          window.location.href = "/verify-email";
         }, 2000);
       } catch (error) {
         notify(error.response.data.message);
@@ -96,8 +111,6 @@ const SignUp = () => {
     }
   };
 
-  console.log(formik.values)
-
   return (
     <form className="bg-white w-[651px] mx-auto" onSubmit={formik.handleSubmit}>
       {PageDisplay()}
@@ -107,6 +120,7 @@ const SignUp = () => {
             className="bg-[#660056] text-white p-4 w-full font-poppins font-medium text-xl hover:bg-primary"
             type={buttonType}
             onClick={handleClick}
+            disabled={formik.disabled}
           >
             Submit Account Details
           </button>

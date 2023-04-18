@@ -1,24 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Input from "../components/Input";
 import axios from "axios";
 import { useFormik } from "formik";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Spinner } from "flowbite-react";
+import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/outline";
 
 function Login() {
+  const [loading, setLoading] = useState(false);
+  const [passwordShown, setPasswordShown] = useState(false);
+
+  const notify = (text) => {
+    return toast.info(text, {
+      position: toast.POSITION.TOP_RIGHT,
+      progressStyle: { background: "rgba(128, 0, 107, 0.8)" },
+    });
+  };
+
+  const togglePassword = (e) => {
+    setPasswordShown(!passwordShown);
+  };
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
-    onSubmit: (values) => {
-      axios
-        .post("https://flight-token.herokuapp.com/login", values)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    onSubmit: async (values) => {
+      setLoading(true);
+      try {
+        const response = await axios.post(
+          "https://flight-token.herokuapp.com/login",
+          values
+        );
+        notify(response.data.message);
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
+      } catch (error) {
+        notify(error.response.data.message);
+      }
+      setLoading(false);
     },
   });
 
@@ -28,7 +51,7 @@ function Login() {
         <h2 className="mt-32 text-center text-2xl capitalize font-semibold font-inter">
           login to your account
         </h2>
-        <form className="mt-10" onSubmit={formik.handleSubmit}>
+        <form className="mt-10 relative" onSubmit={formik.handleSubmit}>
           <Input
             id="email"
             name="email"
@@ -43,18 +66,33 @@ function Login() {
             id="password"
             name="password"
             label="Password"
-            type="password"
+            type={passwordShown ? "text" : "password"}
             placeholder="Password"
             value={formik.values.password}
             onChange={formik.handleChange}
           />
+          <span className="absolute top-[6.5rem] right-5">
+            {passwordShown === true ? (
+              <EyeSlashIcon className="h-6 w-6 " onClick={togglePassword}/>
+            ) : (
+              <EyeIcon className="h-6 w-6" onClick={togglePassword}/>
+            )}
+          </span>
 
           <div className="text-center mt-20 mx-3">
             <button
               type="submit"
               className="bg-[#660056] text-white rounded p-4 w-full font-poppins font-medium text-xl hover:bg-primary"
             >
-              Sign up
+              {loading ? (
+                <Spinner
+                  color="info"
+                  aria-label="Info spinner example"
+                  size="lg"
+                />
+              ) : (
+                "Login"
+              )}
             </button>
           </div>
         </form>
@@ -70,6 +108,18 @@ function Login() {
           By signing in, you consent to our terms and condition
         </p>
       </div>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={9000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        className="capitalize"
+      />
     </section>
   );
 }

@@ -77,6 +77,9 @@ const ProfileSetUp = ({formik}) => {
             placeholder="Fullname"
             value={formik.values.fullname}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            touched={formik.touched.fullname}
+            error={formik.errors.fullname}
           />
           <Input
             label="Nationality"
@@ -86,6 +89,9 @@ const ProfileSetUp = ({formik}) => {
             placeholder="Nationality"
             value={formik.values.nationality}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            touched={formik.touched.nationality}
+            error={formik.errors.nationality}
           />
           <Input
             label="ID Number"
@@ -95,6 +101,9 @@ const ProfileSetUp = ({formik}) => {
             placeholder="ID Number"
             value={formik.values.id_number}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            touched={formik.touched.id_number}
+            error={formik.errors.id_number}
           />
           <Input
             label="Passport Number"
@@ -104,6 +113,9 @@ const ProfileSetUp = ({formik}) => {
             placeholder="Passport Number"
             value={formik.values.passport_number}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            touched={formik.touched.passport_number}
+            error={formik.errors.passport_number}
           />
           <Input
             label="Phone Number"
@@ -113,6 +125,9 @@ const ProfileSetUp = ({formik}) => {
             placeholder="Phone Number"
             value={formik.values.phone_number}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            touched={formik.touched.phone_number}
+            error={formik.errors.phone_number}
           />
           
         </div>

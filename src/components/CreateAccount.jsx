@@ -1,6 +1,6 @@
 import React from "react";
 import Input from "./Input";
-import { BsCheck2Circle } from "react-icons/bs";
+//import { BsCheck2Circle } from "react-icons/bs";
 
 function CreateAccount({ formik }) {
   return (
@@ -23,16 +23,13 @@ function CreateAccount({ formik }) {
             type="text"
             id="username"
             placeholder="Username"
-            className={
-              formik.touched.name && formik.error.name ? "border-red-400" : ""
-            }
             value={formik.values.username}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            touched={formik.touched.username}
+            error={formik.errors.username}
           />
-          {formik.touched.name && formik.errors.name && (
-            <span className="text-red-400">{formik.errors.name}</span>
-          )}
+
           <Input
             label="Email Address"
             name="email"
@@ -41,6 +38,9 @@ function CreateAccount({ formik }) {
             placeholder="Email Address"
             value={formik.values.email}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            touched={formik.touched.email}
+            error={formik.errors.email}
           />
           <Input
             label="Password"
@@ -48,17 +48,18 @@ function CreateAccount({ formik }) {
             id="password"
             type="text"
             placeholder="Password"
-            className="mb-3"
             value={formik.values.password}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            touched={formik.touched.password}
+            error={formik.errors.password}
           />
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <BsCheck2Circle size={25} />
             <small className="text-base font-medium ml-2">
               Must contain uppercase,lowercase and special character{" "}
             </small>
-          </div>
-         
+          </div> */}
         </main>
       </div>
     </section>

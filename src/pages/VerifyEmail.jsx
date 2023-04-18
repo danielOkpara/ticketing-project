@@ -9,7 +9,7 @@ import { Spinner } from "flowbite-react";
 const VerifyEmail = () => {
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+
 
   const emailFromLocalStorage = localStorage.getItem("email");
   const email = emailFromLocalStorage.replace(/^"(.*)"$/, "$1");
@@ -35,9 +35,8 @@ const VerifyEmail = () => {
       );
       notify(response.data.message);
       setTimeout(() => {
-        navigate("/upload-file", { replace: true });
         window.location.href = "/upload-file";
-      }, 2000);
+      }, 3000);
     } catch (error) {
       notify(error.response.data.message);
     }
