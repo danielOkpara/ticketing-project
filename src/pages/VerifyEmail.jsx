@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import OtpInput from "react-otp-input";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -9,7 +9,6 @@ import { Spinner } from "flowbite-react";
 const VerifyEmail = () => {
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
-
 
   const emailFromLocalStorage = localStorage.getItem("email");
   const email = emailFromLocalStorage.replace(/^"(.*)"$/, "$1");
@@ -33,10 +32,15 @@ const VerifyEmail = () => {
         "https://flight-token.herokuapp.com/email-verification",
         formData
       );
-      notify(response.data.message);
-      setTimeout(() => {
-        window.location.href = "/upload-file";
-      }, 3000);
+      const data = response.data.message;
+      if (data === "Please provide a valid token") {
+        notify(response.data.message);
+      } else {
+        notify(response.data.message);
+        setTimeout(() => {
+          window.location.href = "/upload-file";
+        }, 3000);
+      }
     } catch (error) {
       notify(error.response.data.message);
     }
