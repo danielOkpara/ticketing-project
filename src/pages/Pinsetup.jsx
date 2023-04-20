@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import OtpInput from "react-otp-input";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -9,7 +8,6 @@ import { Spinner } from "flowbite-react";
 const Pinsetup = () => {
   const [otp, setOtp] = useState();
   const [loading, setLoading] = useState(false);
-  //const navigate = useNavigate();
 
   const emailFromLocalStorage = localStorage.getItem("email");
   const email = emailFromLocalStorage.replace(/^"(.*)"$/, "$1");
@@ -18,7 +16,7 @@ const Pinsetup = () => {
     email: email,
     pin: otp,
   };
-  console.log(formData);
+
 
   const notify = (text) => {
     return toast.info(text, {
@@ -37,7 +35,6 @@ const Pinsetup = () => {
       );
       notify(response.data.message);
       setTimeout(() => {
-        //navigate("/upload-file", { replace: true });
         window.location.href = "/login";
       }, 3000);
     } catch (error) {
@@ -89,17 +86,6 @@ const Pinsetup = () => {
             </button>
           </div>
         </form>
-
-        {/* <div className="text-center font-normal text-2xl font-inter ">
-          <span>Already a user?</span>
-          <Link to="/login" className="ml-2 text-[#660056]">
-            Login here
-          </Link>
-        </div>
-
-        <p className="text-center text-base font-semibold mt-4 pb-5 font-inter">
-          By signing in, you consent to our terms and condition
-        </p> */}
       </div>
       <ToastContainer
         position="bottom-center"

@@ -73,9 +73,9 @@ function Login() {
           />
           <span className="absolute top-[6.5rem] right-5">
             {passwordShown === true ? (
-              <EyeSlashIcon className="h-6 w-6 " onClick={togglePassword}/>
+              <EyeSlashIcon className="h-6 w-6 " onClick={togglePassword} />
             ) : (
-              <EyeIcon className="h-6 w-6" onClick={togglePassword}/>
+              <EyeIcon className="h-6 w-6" onClick={togglePassword} />
             )}
           </span>
 
@@ -99,7 +99,7 @@ function Login() {
 
         <div className="mt-20 text-center font-normal text-xl font-inter">
           <span>New User?</span>
-          <Link to="/create-account" className="ml-2 text-[#660056]">
+          <Link to="/sign-up" className="ml-2 text-[#660056]">
             Sign up
           </Link>
         </div>

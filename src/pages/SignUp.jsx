@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import CreateAccount from "../components/CreateAccount";
 import ProfileSetUp from "../components/ProfileSetUp";
 import axios from "axios";
@@ -8,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Yup from "yup";
 import { Spinner } from "flowbite-react";
+import Footer from "../components/Footer";
 
 const SignUp = () => {
   const [page, setPage] = useState(0);
@@ -54,17 +54,31 @@ const SignUp = () => {
           "Full name can only contain letters, spaces, and hyphens"
         )
         .required("Full name is required"),
+      nationality: Yup.string().required("Nationality is required"),
       password: Yup.string()
         .min(5)
-        .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/, "Please create a stronger password")
+        .matches(
+          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/,
+          "Please create a stronger password"
+        )
         .required("Password is required"),
       id_number: Yup.number("ID allows only numbers")
-        .positive().min(11,"NIN number can only be 11 digits")
+        .positive()
+        .min(11, "NIN number can only be 11 digits")
         .integer("ID allows only numbers")
         .required("ID Number is required"),
       passport_number: Yup.string().required("Passport Number is required"),
-      phone_number: Yup.string().required("Phone Number is required"),
-      image: Yup.mixed().required("Image is required"),
+      phone_number: Yup.string()
+        .matches(
+          /^\+(?:[0-9] ?){6,14}[0-9]$/,
+          "Please add telephone country code"
+        )
+        .required("Phone Number is required"),
+      image: Yup.mixed().test('fileFormat', 'Invalid file format', (value) => {
+        return ['image/jpeg', 'image/png', 'image/gif'].includes(value.type);
+      }).test('fileSize', 'File too large', (value) => {
+        return value && value.size <= 2000000;
+      }).required("Image is required"),
     }),
 
     onSubmit: async (values) => {
@@ -114,7 +128,7 @@ const SignUp = () => {
   return (
     <form className="bg-white w-[651px] mx-auto" onSubmit={formik.handleSubmit}>
       {PageDisplay()}
-      <div className="text-center mt-14 mx-20">
+      <div className="text-center mt-14 mx-20 mb-10">
         {page === 0 && (
           <button
             className="bg-[#660056] text-white p-4 w-full font-poppins font-medium text-xl hover:bg-primary"
@@ -143,16 +157,7 @@ const SignUp = () => {
           </button>
         )}
       </div>
-      <div className="mt-10 py-4 text-center font-normal text-xl font-inter">
-        <span>Already a user?</span>
-        <Link to="/login" className="ml-2 text-[#660056]">
-          Login here
-        </Link>
-        <p className="text-center text-base font-semibold mt-4 font-inter">
-          By signing in, you consent to our terms and condition
-        </p>
-      </div>
-
+      <Footer />
       <ToastContainer
         position="bottom-center"
         autoClose={9000}

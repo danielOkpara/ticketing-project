@@ -1,9 +1,10 @@
-import React from 'react';
+import React from "react";
 import Input from "./Input";
 import { AiOutlineCamera } from "react-icons/ai";
 import { useRef, useState, useEffect } from "react";
 
-const ProfileSetUp = ({formik}) => {
+const ProfileSetUp = ({ formik }) => {
+  console.log(formik.errors);
   const [image, setImage] = useState();
   const [preview, setPreview] = useState();
   const fileinputRef = useRef(); // use this to select the file input
@@ -46,13 +47,12 @@ const ProfileSetUp = ({formik}) => {
                 className="hidden"
                 ref={fileinputRef} // select the file input
                 accept="image/*" //Limits the file to images only
-
                 onChange={(e) => {
                   const file = e.target.files[0];
                   file && file.type.substring(0, 5) === "image"
-                  ? setImage(file)
-                  : setImage(null);
-                  formik.setFieldValue("image", file)
+                    ? setImage(file)
+                    : setImage(null);
+                  formik.setFieldValue("image", file);
                 }}
               />
 
@@ -66,7 +66,17 @@ const ProfileSetUp = ({formik}) => {
               />
             </div>
             <p>Upload A Profile Picture</p>
-            <p>Upload A Profile Picture under 2mb</p>
+            <p
+              className={
+                formik.touched.image && formik.errors.image
+                  ? "text-rose-500"
+                  : "text-black"
+              }
+            >
+              {formik.touched.image && formik.errors.image ? (formik.errors.image) : (
+                "Upload A Profile Picture under 2mb"
+              )}
+            </p>
           </div>
 
           <Input
@@ -129,7 +139,6 @@ const ProfileSetUp = ({formik}) => {
             touched={formik.touched.phone_number}
             error={formik.errors.phone_number}
           />
-          
         </div>
       </div>
     </section>

@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Spinner } from "flowbite-react";
+import Footer from "../components/Footer";
 
 const Fileupload = () => {
   const fileinputRef = useRef(); // use this to select the file input
@@ -129,17 +129,7 @@ const Fileupload = () => {
             </button>
           </div>
         </form>
-
-        <div className="text-center font-normal text-2xl font-inter">
-          <span>Already a user?</span>
-          <Link to="/login" className="ml-2 text-[#660056]">
-            Login here
-          </Link>
-        </div>
-
-        <p className="text-center text-base font-semibold mt-2 font-inter pb-5">
-          By signing in, you consent to our terms and condition
-        </p>
+        <Footer/>
       </div>
       <ToastContainer
         position="bottom-center"

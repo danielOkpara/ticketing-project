@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import OtpInput from "react-otp-input";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Spinner } from "flowbite-react";
+import Footer from "../components/Footer";
 
 const VerifyEmail = () => {
   const [otp, setOtp] = useState("");
@@ -96,17 +96,7 @@ const VerifyEmail = () => {
             </button>
           </div>
         </form>
-
-        <div className="text-center font-normal text-2xl font-inter ">
-          <span>Already a user?</span>
-          <Link to="/login" className="ml-2 text-[#660056]">
-            Login here
-          </Link>
-        </div>
-
-        <p className="text-center text-base font-semibold mt-4 pb-5 font-inter">
-          By signing in, you consent to our terms and condition
-        </p>
+        <Footer />
       </div>
       <ToastContainer
         position="bottom-center"
