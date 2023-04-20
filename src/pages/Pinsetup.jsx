@@ -51,7 +51,7 @@ const Pinsetup = () => {
       <div className="bg-white w-[651px] px-9">
         <div className="flex justify-end items-center mb-8 mt-5 font-inter text-xl">
           <p>
-            <span>3 </span>Of 4
+            <span>3 </span>Of 3
           </p>
         </div>
         <h2 className="mt-5 text-center text-3xl capitalize font-semibold">

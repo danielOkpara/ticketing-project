@@ -63,7 +63,12 @@ const Fileupload = () => {
 
   return (
     <div className=" h-screen flex items-center justify-center">
-      <div className="bg-white w-[651px] text-center">
+      <div className="bg-white w-[651px] text-center px-9">
+        <div className="flex justify-end items-center mb-8 mt-5 font-inter text-xl">
+          <p>
+            <span>2 </span>Of 3
+          </p>
+        </div>
         <h1 className="font-bold text-2xl mt-16">Upload Your Passport</h1>
         <p className=" mt-7">
           Use your camera to upload a picture of your passport bio data page
