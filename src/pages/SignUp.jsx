@@ -5,7 +5,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import * as Yup from "yup";
+import { validationSchema } from "../validation/Validation";
 import { Spinner } from "flowbite-react";
 import Footer from "../components/Footer";
 
@@ -39,48 +39,7 @@ const SignUp = () => {
       image: null,
     },
     //Validate Form
-    validationSchema: Yup.object({
-      username: Yup.string().required("Username is required"),
-      email: Yup.string()
-        .email("Invalid email address")
-        .required("Email is required")
-        .matches(
-          /@(gmail|yahoo|outlook|hotmail|yopmail)\.com$/,
-          "Please enter a valid email address"
-        ),
-      fullname: Yup.string()
-        .matches(
-          /^[a-zA-Z -]+$/,
-          "Full name can only contain letters, spaces, and hyphens"
-        )
-        .required("Full name is required"),
-      nationality: Yup.string().required("Nationality is required"),
-      password: Yup.string()
-        .min(5)
-        .matches(
-          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/,
-          "Please create a stronger password"
-        )
-        .required("Password is required"),
-      id_number: Yup.number("ID allows only numbers")
-        .positive()
-        .min(11, "NIN number can only be 11 digits")
-        .integer("ID allows only numbers")
-        .required("ID Number is required"),
-      passport_number: Yup.string().required("Passport Number is required"),
-      phone_number: Yup.string()
-        .matches(
-          /^\+(?:[0-9] ?){6,14}[0-9]$/,
-          "Please add telephone country code"
-        )
-        .required("Phone Number is required"),
-      image: Yup.mixed().test('fileFormat', 'Invalid file format', (value) => {
-        return ['image/jpeg', 'image/png', 'image/gif'].includes(value.type);
-      }).test('fileSize', 'File too large', (value) => {
-        return value && value.size <= 2000000;
-      }).required("Image is required"),
-    }),
-
+    validationSchema: validationSchema,
     onSubmit: async (values) => {
       const formData = new FormData();
 

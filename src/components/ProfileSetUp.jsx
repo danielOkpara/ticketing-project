@@ -2,12 +2,27 @@ import React from "react";
 import Input from "./Input";
 import { AiOutlineCamera } from "react-icons/ai";
 import { useRef, useState, useEffect } from "react";
+import countries from "i18n-iso-countries";
+// Import the languages you want to use
+import enLocale from "i18n-iso-countries/langs/en.json";
 
 const ProfileSetUp = ({ formik }) => {
-  console.log(formik.errors);
   const [image, setImage] = useState();
   const [preview, setPreview] = useState();
   const fileinputRef = useRef(); // use this to select the file input
+
+  // Have to register the languages you want to use
+  countries.registerLocale(enLocale);
+
+  // Returns an object not a list
+
+  const countryObj = countries.getNames("en", { select: "official" });
+  const countryArr = Object.entries(countryObj).map(([key, value]) => {
+    return {
+      label: value,
+      value: key,
+    };
+  });
 
   useEffect(() => {
     if (image) {
@@ -73,9 +88,9 @@ const ProfileSetUp = ({ formik }) => {
                   : "text-black"
               }
             >
-              {formik.touched.image && formik.errors.image ? (formik.errors.image) : (
-                "Upload A Profile Picture under 2mb"
-              )}
+              {formik.touched.image && formik.errors.image
+                ? formik.errors.image
+                : "Upload A Profile Picture under 2mb"}
             </p>
           </div>
 
@@ -91,18 +106,53 @@ const ProfileSetUp = ({ formik }) => {
             touched={formik.touched.fullname}
             error={formik.errors.fullname}
           />
-          <Input
-            label="Nationality"
-            type="text"
-            name="nationality"
+
+          <div className="mb-10 font-poppins relative">
+            <label
+              htmlFor="nationality"
+              className={
+                formik.errors.nationality && formik.touched.nationality
+                  ? "text-xl px-2 font-normal text-rose-500 absolute bottom-16 bg-white left-4"
+                  : "text-xl px-2 font-normal text-black absolute bottom-10 bg-white left-4"
+              }
+            >
+              Nationality
+            </label>
+            <select
+              id="nationality"
+              name="nationality"
+              value={formik.values.nationality}
+              onChange={formik.handleChange}
+              className={
+                formik.errors.nationality && formik.touched.nationality
+                  ? "border-2 px-3 py-3 md:px-4 md:py-3 text-sm md:text-base border-rose-500 rounded-md outline-none w-full"
+                  : "border-2 px-3 py-3 md:px-4 md:py-3 text-sm md:text-base border-black rounded-md outline-none w-full"
+              }
+            >
+              <option value="">-- Select a country --</option>
+              {countryArr?.length &&
+                countryArr.map(({ label, value }) => (
+                  <option key={value} value={label}>
+                    {label}
+                  </option>
+                ))}
+            </select>
+            {formik.touched.nationality && formik.errors.nationality && (
+              <span className="text-rose-500 text-base">
+                {formik.errors.nationality}
+              </span>
+            )}
+          </div>
+
+          {/* <Select
             id="nationality"
-            placeholder="Nationality"
+            name="nationality"
             value={formik.values.nationality}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             touched={formik.touched.nationality}
             error={formik.errors.nationality}
-          />
+          /> */}
           <Input
             label="ID Number"
             type="text"
