@@ -6,7 +6,7 @@ export const validationSchema = Yup.object({
     .email("Invalid email address")
     .required("Email is required")
     .matches(
-      /@(gmail|yahoo|outlook|hotmail|yopmail)\.com$/,
+      /@(gmail|yahoo|outlook)\.com$/,
       "Please enter a valid email address"
     ),
   fullname: Yup.string()
@@ -39,5 +39,12 @@ export const validationSchema = Yup.object({
     })
     .test("fileSize", "File too large", (value) => {
       return value && value.size <= 2000000;
+    })
+    .test("fileType", "Upload file with one extension", (value) => {
+      if (!value) return true; // empty file is allowed
+
+      const fileName = value.name; // get the file name
+      const extensionCount = fileName.split(".").length - 1; // check how many periods are in the file
+      return extensionCount === 1;
     }),
 });
