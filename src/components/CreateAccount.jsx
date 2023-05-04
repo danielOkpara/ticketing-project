@@ -4,7 +4,7 @@ import Input from "./Input";
 
 function CreateAccount({ formik }) {
   return (
-    <section className="mt-5">
+    <section className="">
       <div className="px-9">
         <h2 className="pt-6 text-center text-2xl capitalize font-semibold font-inter">
           Create Your Account
