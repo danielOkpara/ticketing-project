@@ -14,11 +14,6 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [buttonType, setButtonType] = useState("text");
 
-  const handleClick = () => {
-    setPage(1);
-    setButtonType("submit");
-  };
-
   const notify = (text) => {
     return toast.info(text, {
       position: toast.POSITION.TOP_RIGHT,
@@ -63,6 +58,7 @@ const SignUp = () => {
         );
         notify(response.data.message);
         setTimeout(() => {
+          //localStorage.removeItem("email");
           window.location.href = "/verify-email";
         }, 2000);
       } catch (error) {
@@ -73,63 +69,92 @@ const SignUp = () => {
     },
   });
 
+  const isCurrentStageValid = Object.keys(formik.errors).length === 6; // this line of code checks the formik.errors and returns true if the error are 6 in numbers meaning that 6 inputs have error messages and we need just 6 error messages to pass the first stage.
+
+  const handleClick = () => {
+    if (isCurrentStageValid) {
+      setPage(1);
+      setButtonType("submit");
+    }
+  };
+
   const PageDisplay = () => {
     switch (page) {
       case 0:
-        return <CreateAccount formik={formik} />;
+        return (
+          <CreateAccount
+            formik={formik}
+            isCurrentStageValid={isCurrentStageValid}
+          />
+        );
       case 1:
-        return <ProfileSetUp formik={formik} />;
+        return (
+          <ProfileSetUp
+            formik={formik}
+            isCurrentStageValid={isCurrentStageValid}
+          />
+        );
       default:
-        return <ProfileSetUp formik={formik} />;
+        return (
+          <ProfileSetUp
+            formik={formik}
+            isCurrentStageValid={isCurrentStageValid}
+          />
+        );
     }
   };
 
   return (
-    <form className="bg-white w-[651px] mx-auto" onSubmit={formik.handleSubmit}>
-      {PageDisplay()}
-      <div className="text-center mt-14 mx-20 mb-10">
-        {page === 0 && (
-          <button
-            className="bg-[#660056] text-white p-4 w-full font-poppins font-medium text-xl hover:bg-primary"
-            type={buttonType}
-            onClick={handleClick}
-            disabled={formik.disabled}
-          >
-            Submit Account Details
-          </button>
-        )}
-        {page === 1 && (
-          <button
-            className="bg-[#660056] text-white p-4 w-full font-poppins font-medium text-xl hover:bg-primary"
-            type={buttonType}
-            onClick={handleClick}
-          >
-            {loading ? (
-              <Spinner
-                color="info"
-                aria-label="Info spinner example"
-                size="lg"
-              />
-            ) : (
-              "Submit Personal Information"
-            )}
-          </button>
-        )}
-      </div>
-      <Footer />
-      <ToastContainer
-        position="bottom-center"
-        autoClose={9000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        className="capitalize"
-      />
-    </form>
+    <section className="h-screen flex items-center justify-center">
+      <form
+        className="bg-white w-[651px] mx-auto"
+        onSubmit={formik.handleSubmit}
+      >
+        {PageDisplay()}
+        <div className="text-center mt-14 mx-20 mb-10">
+          {page === 0 && (
+            <button
+              className="bg-[#660056] text-white p-4 w-full font-poppins font-medium text-xl hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              type={buttonType}
+              onClick={handleClick}
+              disabled={!isCurrentStageValid} // if current stage is false then disable btn
+            >
+              Submit Account Details
+            </button>
+          )}
+          {page === 1 && (
+            <button
+              className="bg-[#660056] text-white p-4 w-full font-poppins font-medium text-xl hover:bg-primary"
+              type={buttonType}
+              onClick={handleClick}
+            >
+              {loading ? (
+                <Spinner
+                  color="info"
+                  aria-label="Info spinner example"
+                  size="lg"
+                />
+              ) : (
+                "Submit Personal Information"
+              )}
+            </button>
+          )}
+        </div>
+        <Footer />
+        <ToastContainer
+          position="bottom-center"
+          autoClose={9000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          className="capitalize"
+        />
+      </form>
+    </section>
   );
 };
 
