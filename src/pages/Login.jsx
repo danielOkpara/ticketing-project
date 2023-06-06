@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Input from "../components/Input";
 import axios from "axios";
 import { useFormik } from "formik";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Spinner } from "flowbite-react";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/outline";
+import FlightToken from "../components/FlightToken";
+import Footer from "../components/Footer";
+import Button from "../components/Button";
 
 function Login() {
   const [loading, setLoading] = useState(false);
@@ -36,7 +38,7 @@ function Login() {
         );
         notify(response.data.message);
         setTimeout(() => {
-          window.location.href = "/";
+          window.location.href = "/dashboard";
         }, 2000);
       } catch (error) {
         notify(error.response.data.message);
@@ -46,18 +48,25 @@ function Login() {
   });
 
   return (
-    <section className="h-screen flex items-center justify-center">
-      <div className="bg-white w-[651px] px-9">
-        <h2 className="mt-32 text-center text-2xl capitalize font-semibold font-inter">
+    <main className="grid grid-cols-2 h-screen">
+      <FlightToken />
+      <div className="bg-white h-screen px-[5.375rem]">
+        <div className="mt-14 text-right font-manropeRegular">
+          <span className="text-black">Are you a new user?</span>
+          <Link to="/sign-up" className="ml-2 text-[#660056]">
+            Sign up here
+          </Link>
+        </div>
+        <h2 className="text-[2rem] font-manropeExtrabold mt-[91px] text-center capitalize">
           login to your account
         </h2>
-        <form className="mt-10 relative" onSubmit={formik.handleSubmit}>
+        <form className="mt-20 relative" onSubmit={formik.handleSubmit}>
           <Input
             id="email"
             name="email"
-            label="Email Address"
+            label="Email"
             type="email"
-            placeholder="Email Address"
+            placeholder="Email"
             value={formik.values.email}
             onChange={formik.handleChange}
           />
@@ -71,42 +80,25 @@ function Login() {
             value={formik.values.password}
             onChange={formik.handleChange}
           />
-          <span className="absolute top-[6.5rem] right-5">
+          <span className="absolute top-[7.4rem] right-5">
             {passwordShown === true ? (
-              <EyeSlashIcon className="h-6 w-6 " onClick={togglePassword} />
+              <EyeIcon className="h-6 w-6 " onClick={togglePassword} />
             ) : (
-              <EyeIcon className="h-6 w-6" onClick={togglePassword} />
+              <EyeSlashIcon className="h-6 w-6" onClick={togglePassword} />
             )}
           </span>
 
+          <div className="text-right">
+            <Link to="/" className="font-manropeRegular text-primary">
+              Forgot Password?
+            </Link>
+          </div>
+
           <div className="text-center mt-20 mx-3">
-            <button
-              type="submit"
-              className="bg-[#660056] text-white rounded p-4 w-full font-poppins font-medium text-xl hover:bg-primary"
-            >
-              {loading ? (
-                <Spinner
-                  color="info"
-                  aria-label="Info spinner example"
-                  size="lg"
-                />
-              ) : (
-                "Login"
-              )}
-            </button>
+            <Button name={"Sign In"} loading={loading} />
           </div>
         </form>
-
-        <div className="mt-20 text-center font-normal text-xl font-inter">
-          <span>New User?</span>
-          <Link to="/sign-up" className="ml-2 text-[#660056]">
-            Sign up
-          </Link>
-        </div>
-
-        <p className="text-center text-base font-semibold my-4 font-inter">
-          By signing in, you consent to our terms and condition
-        </p>
+        <Footer />
       </div>
       <ToastContainer
         position="bottom-center"
@@ -120,7 +112,7 @@ function Login() {
         pauseOnHover
         className="capitalize"
       />
-    </section>
+    </main>
   );
 }
 

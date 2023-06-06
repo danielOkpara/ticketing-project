@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { validationSchema } from "../validation/Validation";
 import { Spinner } from "flowbite-react";
 import Footer from "../components/Footer";
+import FlightToken from "../components/FlightToken";
+import Button from "../components/Button";
 
 const SignUp = () => {
   const [page, setPage] = useState(0);
@@ -69,7 +71,7 @@ const SignUp = () => {
     },
   });
 
-  const isCurrentStageValid = Object.keys(formik.errors).length === 6; // this line of code checks the formik.errors and returns true if the error are 6 in numbers meaning that 6 inputs have error messages and we need just 6 error messages to pass the first stage.
+  const isCurrentStageValid = Object.keys(formik.errors).length === 5; // this line of code checks the formik.errors and returns true if the error are 6 in numbers meaning that 6 inputs have error messages and we need just 6 error messages to pass the first stage.
 
   const handleClick = () => {
     if (isCurrentStageValid) {
@@ -105,56 +107,46 @@ const SignUp = () => {
   };
 
   return (
-    <section className="h-screen flex items-center justify-center">
-      <form
-        className="bg-white w-[651px] mx-auto"
-        onSubmit={formik.handleSubmit}
-      >
-        {PageDisplay()}
-        <div className="text-center mt-14 mx-20 mb-10">
-          {page === 0 && (
-            <button
-              className="bg-[#660056] text-white p-4 w-full font-poppins font-medium text-xl hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed"
-              type={buttonType}
-              onClick={handleClick}
-              disabled={!isCurrentStageValid} // if current stage is false then disable btn
-            >
-              Submit Account Details
-            </button>
-          )}
-          {page === 1 && (
-            <button
-              className="bg-[#660056] text-white p-4 w-full font-poppins font-medium text-xl hover:bg-primary"
-              type={buttonType}
-              onClick={handleClick}
-            >
-              {loading ? (
-                <Spinner
-                  color="info"
-                  aria-label="Info spinner example"
-                  size="lg"
-                />
-              ) : (
-                "Submit Personal Information"
-              )}
-            </button>
-          )}
-        </div>
-        <Footer />
-        <ToastContainer
-          position="bottom-center"
-          autoClose={9000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          className="capitalize"
-        />
-      </form>
-    </section>
+    <main className="grid grid-cols-2 h-screen">
+      <FlightToken />
+      <section className="bg-white h-screen px-[5.375rem] overflow-y-auto">
+        <form onSubmit={formik.handleSubmit}>
+          {PageDisplay()}
+          <div className="text-center mt-14 mb-10">
+            {page === 0 && (
+              <Button
+                name={"Submit Account Details"}
+                type={buttonType}
+                onclick={handleClick}
+                disabled={!isCurrentStageValid} // if current stage is false then disable btn
+              />
+            )}
+            {page === 1 && (
+              <Button
+                name={"Submit Personal Information"}
+                type={buttonType}
+                onclick={handleClick}
+                disabled={!isCurrentStageValid}
+                loading={loading} // if current stage is false then disable btn
+              />
+            )}
+          </div>
+          <Footer />
+          <ToastContainer
+            position="bottom-center"
+            autoClose={9000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            className="capitalize"
+          />
+        </form>
+      </section>
+    </main>
   );
 };
 

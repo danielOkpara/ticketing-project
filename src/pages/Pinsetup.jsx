@@ -4,6 +4,9 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Spinner } from "flowbite-react";
+import FlightToken from "../components/FlightToken";
+import Footer from "../components/Footer";
+import Button from "../components/Button";
 
 const Pinsetup = () => {
   const [otp, setOtp] = useState();
@@ -16,7 +19,6 @@ const Pinsetup = () => {
     email: email,
     pin: otp,
   };
-
 
   const notify = (text) => {
     return toast.info(text, {
@@ -44,49 +46,36 @@ const Pinsetup = () => {
   };
 
   return (
-    <section className="h-screen flex items-center justify-center">
-      <div className="bg-white w-[651px] px-9">
-        <div className="flex justify-end items-center mb-8 mt-5 font-inter text-xl">
-          <p>
-            <span>3 </span>Of 3
-          </p>
-        </div>
-        <h2 className="mt-5 text-center text-3xl capitalize font-semibold">
-          Set up Pin
+    <main className="grid grid-cols-2 h-screen">
+      <FlightToken />
+      <section className="bg-white h-screen px-[5.375rem]">
+        <h2 className="text-[2rem] font-manropeExtrabold mt-32 text-center">
+          Set up Your PIN
         </h2>
 
-        <form
-          className="mt-20 flex flex-col justify-center items-center"
-          onSubmit={handleSubmit}
-        >
+        <form className="mt-28 flex flex-col " onSubmit={handleSubmit}>
           <OtpInput
             value={otp}
             onChange={setOtp}
             numInputs={4}
-            renderInput={(props) => <input {...props} />}
-            inputStyle={
-              "h-[93px] bg-[#e7e0ec] rounded-sm mr-8 text-center text-7xl focus:border-primary"
-            }
+            renderInput={(props) => (
+              <input
+                {...props}
+                type="text"
+                className={
+                  "border border-inputBorderColor h-[100px] rounded-md focus:border-inputFocusedBorderColor caret-inputFocusedBorderColor text-8xl font-manropeRegular"
+                }
+              />
+            )}
+            containerStyle={"flex justify-evenly"}
           />
 
-          <div className="text-center mt-20 mb-14">
-            <button
-              type="submit"
-              className="bg-[#660056] text-white rounded p-4 font-poppins font-medium text-xl hover:bg-primary px-20"
-            >
-              {loading ? (
-                <Spinner
-                  color="gray"
-                  aria-label="Info spinner example"
-                  size="lg"
-                />
-              ) : (
-                "Continue"
-              )}
-            </button>
+          <div className="mt-32 mb-14">
+            <Button name={"Verify Email"} loading={loading} type={"submit"} />
           </div>
         </form>
-      </div>
+        <Footer />
+      </section>
       <ToastContainer
         position="bottom-center"
         autoClose={9000}
@@ -99,7 +88,7 @@ const Pinsetup = () => {
         pauseOnHover
         className="capitalize"
       />
-    </section>
+    </main>
   );
 };
 

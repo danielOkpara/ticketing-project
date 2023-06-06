@@ -1,19 +1,26 @@
 import React from "react";
 import Input from "./Input";
-//import { BsCheck2Circle } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 function CreateAccount({ formik }) {
   return (
-    <section className="">
-      <div className="px-9">
-        <h2 className="pt-6 text-center text-2xl capitalize font-semibold font-inter">
+    <section>
+      <div>
+        <span className="pt-10 text-right flex justify-end font-manropeRegular">
+          Already a user?{" "}
+          <Link to="/ login" className="text-primary ml-1">
+            Login here
+          </Link>
+        </span>
+        <h2 className="mt-16 text-center text-[2rem] capitalize font-manropeExtrabold">
           Create Your Account
         </h2>
-        <div className="flex justify-between items-center my-10 font-inter text-xl">
+        <div className="flex justify-between items-center mt-11 font-manropeRegular text-base mb-7">
           <span>Account Details</span>
-          <p>
-            <span>1 </span>Of 2
-          </p>
+          <div className="flex">
+            <div className="w-[60px] h-[9px] rounded-xl bg-black mr-2"></div>
+            <div className="w-[60px] h-[9px] rounded-xl bg-[#D9D9D9]"></div>
+          </div>
         </div>
 
         <main>
@@ -54,12 +61,18 @@ function CreateAccount({ formik }) {
             touched={formik.touched.password}
             error={formik.errors.password}
           />
-          {/* <div className="flex items-center">
-            <BsCheck2Circle size={25} />
-            <small className="text-base font-medium ml-2">
-              Must contain uppercase,lowercase and special character{" "}
-            </small>
-          </div> */}
+          <Input
+            label="Phone Number"
+            type="text"
+            name="phone_number"
+            id="phone_number"
+            placeholder="Phone Number"
+            value={formik.values.phone_number}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            touched={formik.touched.phone_number}
+            error={formik.errors.phone_number}
+          />
         </main>
       </div>
     </section>

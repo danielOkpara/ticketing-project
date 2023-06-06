@@ -11,8 +11,8 @@ const Input = ({
   error,
 }) => {
   return (
-    <div className="mb-10 relative font-poppins">
-      <label
+    <div className="mb-6 relative font-poppins">
+      {/* <label
         htmlFor={id}
         className={
           error && touched
@@ -21,7 +21,7 @@ const Input = ({
         }
       >
         {label}
-      </label>
+      </label> */}
       <input
         type={type}
         name={name}
@@ -29,15 +29,15 @@ const Input = ({
         placeholder={placeholder}
         className={
           error && touched
-            ? "border-2 px-3 py-3 md:px-4 md:py-3 text-sm md:text-base border-rose-500 rounded-md outline-none w-full"
-            : "border-2 px-3 py-3 md:px-4 md:py-3 text-sm md:text-base border-black rounded-md outline-none w-full focus:border-primary"
+            ? "border font-nunitoBold text-base h-[70px]  md:text-base border-rose-500 placeholder-inputBorderColor px-6 rounded-[5px] outline-none w-full focus:border-inputFocusedBorderColor"
+            : "border font-nunitoBold text-base h-[70px]  md:text-base border-inputBorderColor placeholder-inputBorderColor px-6 rounded-[5px] outline-none w-full focus:border-inputFocusedBorderColor"
         }
         value={value}
         onChange={onChange}
         onBlur={onBlur}
       />
       {touched && error && (
-        <span className="text-rose-500 text-base">{error}</span>
+        <span className="text-rose-500 text-sm">{error}</span>
       )}
     </div>
   );

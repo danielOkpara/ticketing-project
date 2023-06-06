@@ -5,6 +5,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Spinner } from "flowbite-react";
 import Footer from "../components/Footer";
+import FlightToken from "../components/FlightToken";
+import Button from "../components/Button";
 
 const Fileupload = () => {
   const fileinputRef = useRef(); // use this to select the file input
@@ -62,20 +64,24 @@ const Fileupload = () => {
   });
 
   return (
-    <div className=" h-screen flex items-center justify-center">
-      <div className="bg-white w-[651px] text-center px-9">
-        <div className="flex justify-end items-center mb-8 mt-5 font-inter text-xl">
-          <p>
-            <span>2 </span>Of 3
+    <main className="grid grid-cols-2 h-screen">
+      <FlightToken/>
+      <section className="bg-white h-screen px-[5.375rem] flex flex-col">
+        <h1 className="font-bold text-[2rem] font-manropeExtrabold mt-20 text-center">
+          Upload Your Passport
+        </h1>
+        <div className="flex justify-between items-center mt-10 text-lg">
+          <p className="font-manropeMedium max-w-sm">
+            Use your camera to upload a picture of your passport bio data page
           </p>
+          <div className="flex">
+            <div className="w-[60px] h-[9px] rounded-xl bg-[#D9D9D9]"></div>
+            <div className="w-[60px] h-[9px] rounded-xl bg-black ml-2"></div>
+          </div>
         </div>
-        <h1 className="font-bold text-2xl mt-16">Upload Your Passport</h1>
-        <p className=" mt-7">
-          Use your camera to upload a picture of your passport bio data page
-        </p>
 
         <form className="" onSubmit={formik.handleSubmit}>
-          <div className=" border-2 border-black w-[330px] h-[221px] relative flex justify-center items-center my-16 mx-auto">
+          <div className="border-2 border-black w-[330px] h-[221px] relative flex justify-center items-center my-16 mx-auto">
             {preview ? (
               <img
                 src={preview}
@@ -112,25 +118,13 @@ const Fileupload = () => {
             />
           </div>
 
-          <div className="text-center mb-10">
-            <button
-              type="submit"
-              className="bg-[#660056] text-white rounded p-4 font-poppins font-medium text-xl hover:bg-primary px-20"
-            >
-              {loading ? (
-                <Spinner
-                  color="gray"
-                  aria-label="Info spinner example"
-                  size="lg"
-                />
-              ) : (
-                "Upload File"
-              )}
-            </button>
+          <div className="text-center mb-8">
+          <Button name={"Capture"} loading={loading} />
+
           </div>
         </form>
-        <Footer/>
-      </div>
+        <Footer />
+      </section>
       <ToastContainer
         position="bottom-center"
         autoClose={9000}
@@ -143,7 +137,7 @@ const Fileupload = () => {
         pauseOnHover
         className="capitalize"
       />
-    </div>
+    </main>
   );
 };
 export default Fileupload;

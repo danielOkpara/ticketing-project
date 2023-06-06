@@ -3,8 +3,10 @@ import OtpInput from "react-otp-input";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Spinner } from "flowbite-react";
 import Footer from "../components/Footer";
+import FlightToken from "../components/FlightToken";
+import { Link } from "react-router-dom";
+import Button from "../components/Button";
 
 const VerifyEmail = () => {
   const [otp, setOtp] = useState("");
@@ -48,56 +50,43 @@ const VerifyEmail = () => {
   };
 
   return (
-    <section className="h-screen flex items-center justify-center">
-      <div className="bg-white w-[651px] px-9">
-        <div className="flex justify-end items-center mb-8 mt-5 font-inter text-xl">
-          <p>
-            <span>1 </span>Of 3
+    <main className="grid grid-cols-2 h-screen">
+      <FlightToken />
+      <section className="bg-white h-screen px-[5.375rem] flex justify-center items-center">
+        <div>
+          <h2 className="mt-5 text-center text-3xl capitalize font-manropeExtrabold">
+            Verify Your Email
+          </h2>
+          <p className="text-center mt-7 text-xl">
+            An OTP number has been sent{" "}
+            <strong className="text-primary underline">{email}</strong>, Kindly
+            enter the digits below
           </p>
-        </div>
-        <h2 className="mt-5 text-center text-3xl capitalize font-semibold">
-          Verify Your Email
-        </h2>
+          <form
+            className=" mt-20 flex flex-col justify-center items-center "
+            onSubmit={handleSubmit}
+          >
+            <OtpInput
+              value={otp}
+              onChange={setOtp}
+              numInputs={4}
+              renderInput={(props) => <input {...props} />}
+              inputStyle={
+                "border border-inputBorderColor h-[100px] rounded-md focus:border-inputFocusedBorderColor caret-inputFocusedBorderColor text-8xl font-manropeRegular mx-5"
+              }
+              containerStyle={"flex justify-evenly"}
+            />
 
-        <p className="text-center mt-7 text-xl">
-          An OTP number has been sent{" "}
-          <strong className="text-gray-400">{email}</strong>, enter the digits
-          below
-        </p>
-
-        <form
-          className=" mt-20 flex flex-col justify-center items-center"
-          onSubmit={handleSubmit}
-        >
-          <OtpInput
-            value={otp}
-            onChange={setOtp}
-            numInputs={4}
-            renderInput={(props) => <input {...props} />}
-            inputStyle={
-              "h-[93px] bg-[#e7e0ec] rounded-sm mr-8 text-center text-7xl focus:border-primary"
-            }
-          />
-
-          <div className="text-center mt-20 mb-14">
-            <button
-              type="submit"
-              className="bg-[#660056] text-white rounded p-4 font-poppins font-medium text-xl hover:bg-primary px-20"
-            >
-              {loading ? (
-                <Spinner
-                  color="gray"
-                  aria-label="Info spinner example"
-                  size="lg"
-                />
-              ) : (
-                "Verify Email"
-              )}
-            </button>
+            <div className="text-center mt-28 w-full">
+              <Button name={"Verify Email"} loading={loading} />
+            </div>
+          </form>
+          <div className="text-center font-manropeMedium text-xl text-inputBorderColor underline mt-11">
+            <Link to="/">Resend OTP</Link>
           </div>
-        </form>
-        <Footer />
-      </div>
+          <Footer />
+        </div>
+      </section>
       <ToastContainer
         position="bottom-center"
         autoClose={9000}
@@ -110,7 +99,7 @@ const VerifyEmail = () => {
         pauseOnHover
         className="capitalize"
       />
-    </section>
+    </main>
   );
 };
 
